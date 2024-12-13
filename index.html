@@ -3,81 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Kantin</title>
+    <title>Manajemen Menu Kantin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        .fade-in {
-            animation: fadeIn 1s ease-out;
-        }
-
-        body {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+        .menu-item:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="text-gray-800 font-sans">
-    <header class="text-center py-5">
-        <h1 class="text-3xl font-bold text-white">Menu Kantin</h1>
-        <div class="space-x-2 mt-4">
-            <button class="px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded" onclick="filterMenu('all')">Semua</button>
-            <button class="px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded" onclick="filterMenu('food')">Makanan</button>
-            <button class="px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded" onclick="filterMenu('drinks')">Minuman</button>
-            <button class="px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded" onclick="filterMenu('snacks')">Snack</button>
-        </div>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-5">
+        <h1 class="text-3xl font-bold text-center">Manajemen Menu Kantin</h1>
     </header>
 
-    <main class="p-5">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 fade-in" id="menu-grid"></div>
+    <!-- Filter Buttons -->
+    <div class="flex justify-center gap-4 py-4">
+        <button class="filter-btn px-4 py-2 bg-gray-800 text-white rounded" onclick="filterMenu('all')">Semua</button>
+        <button class="filter-btn px-4 py-2 bg-gray-800 text-white rounded" onclick="filterMenu('food')">Makanan</button>
+        <button class="filter-btn px-4 py-2 bg-gray-800 text-white rounded" onclick="filterMenu('drinks')">Minuman</button>
+        <button class="filter-btn px-4 py-2 bg-gray-800 text-white rounded" onclick="filterMenu('snacks')">Camilan</button>
+    </div>
 
-        <div class="mt-10" id="admin-section" style="display: none;">
-            <h2 class="text-2xl font-bold text-center">Admin Panel</h2>
-            <form id="add-product-form" class="mt-5 space-y-3">
-                <input type="text" id="product-name" placeholder="Nama Produk" class="w-full p-2 border rounded" required>
-                <input type="number" id="product-price" placeholder="Harga Produk (Rp)" class="w-full p-2 border rounded" required>
-                <select id="product-category" class="w-full p-2 border rounded" required>
-                    <option value="">Pilih Kategori</option>
+    <!-- Menu Grid -->
+    <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4"></div>
+
+    <!-- Admin Section -->
+    <div id="admin-section" class="hidden bg-white p-5 rounded-lg shadow-lg mx-auto max-w-3xl my-5">
+        <h2 class="text-xl font-bold mb-4">Admin Panel</h2>
+        <form id="add-product-form" class="mb-4">
+            <h3 class="font-semibold mb-2">Tambah Produk</h3>
+            <div class="mb-2">
+                <label for="product-name" class="block">Nama Produk</label>
+                <input type="text" id="product-name" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-2">
+                <label for="product-price" class="block">Harga Produk</label>
+                <input type="number" id="product-price" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="product-category" class="block">Kategori Produk</label>
+                <select id="product-category" class="w-full border p-2 rounded">
                     <option value="food">Makanan</option>
                     <option value="drinks">Minuman</option>
-                    <option value="snacks">Snack</option>
+                    <option value="snacks">Camilan</option>
                 </select>
-                <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded">Tambah Produk</button>
-            </form>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Tambah Produk</button>
+        </form>
 
-            <form id="update-price-form" class="mt-5 space-y-3">
-                <select id="update-product-name" class="w-full p-2 border rounded" required>
-                    <option value="">Pilih Produk</option>
-                </select>
-                <input type="number" id="update-product-price" placeholder="Harga Baru (Rp)" class="w-full p-2 border rounded" required>
-                <button type="submit" class="w-full px-4 py-2 bg-yellow-600 text-white rounded">Ubah Harga</button>
-            </form>
-        </div>
-    </main>
+        <form id="update-price-form">
+            <h3 class="font-semibold mb-2">Update Harga Produk</h3>
+            <div class="mb-2">
+                <label for="update-product-name" class="block">Pilih Produk</label>
+                <select id="update-product-name" class="w-full border p-2 rounded"></select>
+            </div>
+            <div class="mb-2">
+                <label for="update-product-price" class="block">Harga Baru</label>
+                <input type="number" id="update-product-price" class="w-full border p-2 rounded" required>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Update Harga</button>
+        </form>
+    </div>
 
-    <footer class="text-center py-5 bg-gray-800 text-white">
-        <p>© 2024 Kantin Kampus</p>
-    </footer>
-
+    <!-- Script -->
     <script>
-        const menu = [
+        const menuGrid = document.getElementById('menu-grid');
+        const adminSection = document.getElementById('admin-section');
+        const updateProductSelect = document.getElementById('update-product-name');
+
+        let menu = JSON.parse(localStorage.getItem('menu')) || [
             { name: 'Mie Rendang', price: 6000, category: 'food' },
             { name: 'Es Teh Dingin', price: 4000, category: 'drinks' },
             { name: 'Chitato', price: 2000, category: 'snacks' },
         ];
 
-        const menuGrid = document.getElementById('menu-grid');
-        const adminSection = document.getElementById('admin-section');
-        const updateProductSelect = document.getElementById('update-product-name');
+        function saveMenuToLocalStorage() {
+            localStorage.setItem('menu', JSON.stringify(menu));
+        }
 
         function displayMenu(items) {
             menuGrid.innerHTML = '';
             items.forEach(item => {
                 const menuItem = document.createElement('div');
-                menuItem.className = `menu-item ${item.category} bg-white p-4 shadow-lg rounded-lg`;
+                menuItem.className = `menu-item ${item.category} bg-white p-4 shadow-lg rounded-lg text-center`;
                 menuItem.innerHTML = `
                     <h3 class="text-xl font-semibold">${item.name}</h3>
                     <p class="text-gray-600">Rp${item.price}</p>
@@ -111,6 +121,7 @@
             const price = parseInt(document.getElementById('product-price').value);
             const category = document.getElementById('product-category').value;
             menu.push({ name, price, category });
+            saveMenuToLocalStorage();
             displayMenu(menu);
             populateUpdateProductSelect();
             e.target.reset();
@@ -122,6 +133,7 @@
             const newPrice = parseInt(document.getElementById('update-product-price').value);
             const product = menu.find(item => item.name === name);
             if (product) product.price = newPrice;
+            saveMenuToLocalStorage();
             displayMenu(menu);
             e.target.reset();
         });
@@ -140,10 +152,9 @@
             displayMenu(menu);
         };
 
-        // Login button
         const loginButton = document.createElement('button');
         loginButton.textContent = 'Login Admin';
-        loginButton.className = 'px-4 py-2 bg-red-600 text-white fixed top-5 right-5 rounded';
+        loginButton.className = 'px-4 py-2 bg-red-600 text-white fixed top-5 right-5 rounded shadow-lg';
         loginButton.onclick = loginAdmin;
         document.body.appendChild(loginButton);
     </script>
